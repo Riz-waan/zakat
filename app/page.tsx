@@ -1,19 +1,45 @@
 'use client'
 
-import Card from "@/app/(components)/card";
+
+import HomePage from "@/app/(pages)/home";
+import {useEffect, useState} from "react";
+import SettingsPage from "@/app/(pages)/settings";
+import Navbar from "@/app/(components)/navbar";
+import {authType, pages} from "@/app/(utils)/types/home";
+import LoginPage from "./(pages)/login";
+import {RefreshHandler} from "@/app/(utils)/auth";
+
 
 export default function Home() {
+
+    const [page, setPage] = useState<pages>('Login');
+    const [auth, setAuth] = useState<authType>();
+
+    useEffect(() => {
+        if (auth === undefined) {
+            let refToken = localStorage.getItem("refreshToken");
+            if (refToken)
+                RefreshHandler(setAuth, setPage, refToken)
+        }
+    }, [])
+
+    const Login = (auth: authType) => {
+        setAuth(auth)
+        localStorage.setItem("refreshToken", auth.refreshToken)
+        setPage("Home")
+    }
+
+    const Logout = () => {
+        setAuth(undefined)
+        localStorage.removeItem("refreshToken")
+        setPage("Login")
+    }
+
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between p-8">
-            <div className="mb-32 w-full">
-                <h2 className='mb-8 text-2xl font-semibold'>
-                    My Net Worth
-                </h2>
-                <Card account={"Charles Schwab"} value={56900.96} type={"Investment"}/>
-                <Card account={"Charles Schwab"} value={56900.96} type={"Checking"}/>
-                <Card account={"HSBC"} value={56900.96} type={"Checking"}/>
-                <Card account={"Cash"} value={500.01} type={"Cash"} />
-            </div>
+        <main className="flex min-h-screen flex-col items-center justify-between">
+            {page === 'Home' && <HomePage/>}
+            {page === 'Settings' && <SettingsPage logout={Logout}/>}
+            {page === 'Login' ? <LoginPage storeAuth={Login}/> : <Navbar nav={page} setNav={setPage}/>}
         </main>
     )
 }
