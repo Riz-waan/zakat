@@ -8,7 +8,7 @@ async function pullAccountBalance(accessToken: string) {
     return 0
 }
 
-export async function PATCH(request: NextRequest) {
+export async function GET(request: NextRequest) {
     try {
         const body = await request.json()
         const {payload} = await jose.jwtVerify(body.refreshToken, jwtOptions.secret, {
