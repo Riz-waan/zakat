@@ -35,4 +35,13 @@ const RefreshHandler = async ( refreshToken: string) => {
     }
 }
 
-export {Login, Refresh, RefreshHandler}
+const jwtOptions = {
+    secret: new TextEncoder().encode(process.env.JWT_SECRET as string),
+    alg: 'HS256',
+    issuer: process.env.JWT_ISSUER as string,
+    audience: process.env.JWT_AUDIENCE as string,
+    accessTokenExpiration: process.env.JWT_ATEXPIRE as string,
+    refreshTokenExpiration: process.env.JWT_RTEXPIRE as string
+}
+
+export {Login, Refresh, RefreshHandler, jwtOptions}

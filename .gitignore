@@ -35,3 +35,6 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+# Rizwaan Info
+/app/api/createRiz/route.ts

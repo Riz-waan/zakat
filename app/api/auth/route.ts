@@ -5,7 +5,8 @@ import {authType} from '@/app/(utils)/types/home';
 import {kv} from '@vercel/kv';
 
 import crypto from "crypto";
-
+import {KVDataStore} from "@/app/(utils)/types/settings";
+import {jwtOptions} from "@/app/(utils)/auth";
 
 function passwordCompare(password: string, saltHashedPassword: string) {
     const salt = saltHashedPassword.split(".")[0];
@@ -18,7 +19,7 @@ function passwordCompare(password: string, saltHashedPassword: string) {
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json()
-        const user = await kv.hgetall<{password: string}>(body.username)
+        const user: KVDataStore = await kv.json.get(body.username)
         if (user && passwordCompare(body.password, user.password)) {
             const generatedTokens = await generateTokens(body.username)
 
@@ -36,14 +37,7 @@ export async function POST(request: NextRequest) {
 }
 
 
-const jwtOptions = {
-    secret: new TextEncoder().encode(process.env.JWT_SECRET as string),
-    alg: 'HS256',
-    issuer: process.env.JWT_ISSUER as string,
-    audience: process.env.JWT_AUDIENCE as string,
-    accessTokenExpiration: process.env.JWT_ATEXPIRE as string,
-    refreshTokenExpiration: process.env.JWT_RTEXPIRE as string
-}
+
 
 export async function PATCH(request: NextRequest) {
     try {
