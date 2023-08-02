@@ -21,11 +21,17 @@ const Refresh = async (refreshToken: string): Promise<LoginReturn> => {
     return {code: response.status, auth: await response.json()}
 }
 
-const RefreshHandler = async (setAuth: Dispatch<SetStateAction<authType | undefined>>, setPage: Dispatch<SetStateAction<pages>>, refreshToken: string) => {
+const RefreshHandler = async ( refreshToken: string) => {
     const response = await Refresh(refreshToken)
     if (response.code === 200) {
-        setAuth(response.auth)
-        setPage("Home")
+        return {
+            success: true,
+            auth: response.auth
+        }
+    }
+    return {
+        success: false,
+        auth: null
     }
 }
 

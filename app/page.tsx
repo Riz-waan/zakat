@@ -12,15 +12,26 @@ import {RefreshHandler} from "@/app/(utils)/auth";
 
 export default function Home() {
 
-    const [page, setPage] = useState<pages>('Login');
+    const [page, setPage] = useState<pages>('Loading');
     const [auth, setAuth] = useState<authType>();
 
-    useEffect(() => {
+    const onLoad = async () => {
         if (auth === undefined) {
             let refToken = localStorage.getItem("refreshToken");
-            if (refToken)
-                RefreshHandler(setAuth, setPage, refToken)
+            if (refToken) {
+                const output = await RefreshHandler(refToken)
+                if (output.success && output.auth) {
+                    setAuth(output.auth)
+                    setPage('Home')
+                    return
+                }
+            }
+            setPage('Login')
         }
+    }
+
+    useEffect(() => {
+        onLoad()
     }, [])
 
     const Login = (auth: authType) => {
@@ -37,9 +48,11 @@ export default function Home() {
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-between">
+            {page === 'Loading' && <p>The application is loading.</p>}
             {page === 'Home' && <HomePage/>}
             {page === 'Settings' && <SettingsPage logout={Logout}/>}
-            {page === 'Login' ? <LoginPage storeAuth={Login}/> : <Navbar nav={page} setNav={setPage}/>}
+            {page === 'Login' && <LoginPage storeAuth={Login}/>}
+            {(page === 'Home' || page === 'Settings') && <Navbar nav={page} setNav={setPage}/>}
         </main>
     )
 }

@@ -1,4 +1,4 @@
-export type pages = 'Home' | 'Settings' | 'Login'
+export type pages = 'Home' | 'Settings' | 'Login' | 'Loading'
 
 export type authType = {
     accessToken: string
