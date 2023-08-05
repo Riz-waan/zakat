@@ -6,7 +6,7 @@ import {kv} from '@vercel/kv';
 
 import crypto from "crypto";
 import {KVDataStore} from "@/app/(utils)/types/settings";
-import {jwtOptions} from "@/app/(utils)/auth";
+import {jwtOptions} from "@/app/(utils)/api/auth";
 
 function passwordCompare(password: string, saltHashedPassword: string) {
     const salt = saltHashedPassword.split(".")[0];

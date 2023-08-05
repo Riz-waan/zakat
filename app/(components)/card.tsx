@@ -1,7 +1,7 @@
 type cardInput = {
     account: string,
     value: number,
-    type: 'Investment' | 'Checking' | 'Savings' | 'Cash' | 'Gold' | 'Silver'
+    type: 'Investment' | 'Checking' | 'Savings' | 'Cash'
 }
 
 

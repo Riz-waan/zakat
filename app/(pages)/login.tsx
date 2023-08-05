@@ -1,6 +1,10 @@
 import { useState } from "react"
-import { Login } from "../(utils)/auth"
-import { loginPageInput } from "../(utils)/types/login"
+import { Login } from "../(utils)/api/auth"
+import { authType } from "../(utils)/types/home"
+
+type loginPageInput = {
+    storeAuth: (auth: authType) => void
+}
 
 export default function LoginPage({storeAuth}: loginPageInput) {
     const [username, setUsername] = useState("")

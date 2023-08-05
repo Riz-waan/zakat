@@ -6,7 +6,7 @@ export type KVDataStore = {
     password: string,
     zakatDate: string,
     history: NetWorthHistory[],
-    accounts: (Cash | Account | Commodity)[],
+    accounts: (Cash | Account)[],
     currentId: number
 }
 
@@ -29,14 +29,8 @@ type Account = {
     accessToken: string
 }
 
-type Commodity = {
-    type: 'Gold' | 'Silver'
-    valueInGrams: number,
-    uniqueId: number
-}
-
 export type SettingsAPIReturn = {
-    type: 'Investment' | 'Checking' | 'Savings' | 'Cash' | 'Gold' | 'Silver',
+    type: 'Investment' | 'Checking' | 'Savings' | 'Cash',
     account: string,
     value: number,
     uniqueId: number

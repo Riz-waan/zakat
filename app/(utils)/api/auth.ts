@@ -1,8 +1,9 @@
-import {LoginReturn} from "@/app/(utils)/types/auth";
-import {Dispatch, SetStateAction} from "react";
-import {authType, pages} from "@/app/(utils)/types/home";
+import { authType } from "../types/home"
 
-
+type LoginReturn = {
+    code: number,
+    auth: authType
+}
 const Login = async (username: string, password: string): Promise<LoginReturn> => {
     const response = await fetch("/api/auth", {
         method: "POST",

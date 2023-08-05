@@ -1,5 +1,5 @@
 import {NextRequest, NextResponse} from "next/server"
-import {jwtOptions} from "@/app/(utils)/auth";
+import {jwtOptions} from "@/app/(utils)/api/auth";
 import * as jose from "jose"
 import {kv} from "@vercel/kv";
 import {KVDataStore, SettingsAPIReturn} from "@/app/(utils)/types/settings";
@@ -28,9 +28,7 @@ export async function GET(request: NextRequest) {
                 if (account.type === 'Investment' || account.type === 'Checking' || account.type === 'Savings') {
                     accountInfo = account.bank
                     accountValue = await pullAccountBalance(account.accessToken)
-                } else if (account.type === 'Gold' || account.type === 'Silver') {
-                    accountInfo = account.type
-                    accountValue = account.valueInGrams
+
                 } else if (account.type === 'Cash') {
                     accountInfo = account.currency
                     accountValue = account.value

@@ -7,7 +7,7 @@ import SettingsPage from "@/app/(pages)/settings";
 import Navbar from "@/app/(components)/navbar";
 import {authType, pages} from "@/app/(utils)/types/home";
 import LoginPage from "./(pages)/login";
-import {RefreshHandler} from "@/app/(utils)/auth";
+import {RefreshHandler} from "@/app/(utils)/api/auth";
 
 
 export default function Home() {
